@@ -1,7 +1,7 @@
 /*
 N-ary tree implementation.
 > Insertion
-> BFS + DFS Treaversal
+> BFS + DFS Traversal
 > Get value(s) by level
 
          1        is stored in the form    1
