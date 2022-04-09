@@ -8,8 +8,8 @@ class node
     public:
     node* create_linked_list(int*, int);
     node* create_node(int);
-    node* reverse_ll_two_ptr(node*, node*);
-    node* reverse_ll_single_ptr(node*);
+    node* reverse_ll_recursive(node*, node* = NULL);
+    node* reverse_ll_iterative(node*);
     void Print(node*);
 };
 
@@ -19,31 +19,48 @@ int main()
     node obj, *head = NULL;
     head = obj.create_linked_list(arr, len);
     obj.Print(head);
-    head = obj.reverse_ll_two_ptr(head, NULL);
+    head = obj.reverse_ll_recursive(head);
+    obj.Print(head);
+    head = obj.reverse_ll_iterative(head);
     obj.Print(head);
 }
 
-node* node::reverse_ll_two_ptr(node* head, node* prev)
+node* node::reverse_ll_recursive(node* head, node* prev)
 {
-    node *temp = head->next;
-    head->next = prev;
-    if(temp)
-    return reverse_ll_two_ptr(temp, head);
+    // Method:- 1
+    // node *temp = head->next;
+    // head->next = prev;
+    // if(temp)
+    // return reverse_ll_recursive(temp, head);
+    // return head;
+
+    // Method:- 2
+    if(!head || !head->next)
     return head;
+
+    node* newHead = reverse_ll_recursive(head->next);
+    head->next->next = head;
+    head->next = NULL;    
+
+    return newHead;
+
 }
 
-node* node::reverse_ll_single_ptr(node* head)
+node* node::reverse_ll_iterative(node* head)
 {
-    node *rear = NULL;
-    if(!head->next)
+    node* prev = NULL;
+    node* curr = head;
+    node* future = NULL;
+
+    while(curr)
     {
-        rear = head;
-        return head;
-    }    
-    node* temp = reverse_ll_single_ptr(head->next);
-    temp->next = head;
-    head->next = NULL;
-    return head;
+        future = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = future;
+    }
+
+    return prev;
 }
 
 node* node::create_linked_list(int* arr, int len)
@@ -72,10 +89,10 @@ node* node::create_node(int val)
 
 void node::Print(node *head)
 {
-    while(head != NULL)
+    while(head)
     {
-        cout<<head->data<<" ";        
+        cout<<head->data<<"->";        
         head = head->next;
     }
-    cout<<endl;
+    cout<<"NULL"<<endl;
 }
