@@ -55,50 +55,52 @@ void Node::Print(Node *head)
 {
    while(head)
    {
-      cout<<head->data<<" ";
+      cout<<head->data<<"->";
       head=head->next;
    }
-   cout<<endl;
+   cout<<"NULL"<<endl;
 }
 
 Node* Node::reverse_sublist(Node* head, int m, int n)
 {
-    //If head is null or list have only one node or m == n
+    //If head is null OR list have only one node OR m == n
     if(!head || !head->next || m==n)
     return head;
-
-    //Iterating to position one less than starting point
+    
     Node *temp = head, *start = NULL;
+
+    // Keeping the pointers to the node previous to starting node and the starting node
     for(int i=0; i<m-1; i++)
     {
         start = temp;
         temp = temp->next;
     }    
 
-    Node *prev, *curr, *adj, *last;
-    prev = curr = adj = last = NULL;
+    Node *prev, *curr, *future;
+    prev = curr = future = NULL;
 
-    last = curr = temp, adj = temp->next;  
+    curr = temp;  
 
-    //Reversing the list using three pointer approach    
+    // Reversing the n-m+1 elements with three pointer approach    
     for(int i=0; curr, i<n-m+1; i++)
     {
+        future = curr->next;
         curr->next = prev;
         prev = curr;
-        curr = adj;        
-        if(adj)
-        adj = adj->next;
+        curr = future;        
     }
     
+    // If m == 1, reverse started from begining of the list
+    // After reversal prev is the head of the reversed list
     if(!start)
     head = prev;    
     else
     start->next = prev;
-       
-    last->next = curr;
     
-    return head;      
-
+    // curr points to the node that was next to prev before reversal
+    temp->next = curr;
+    
+    return head; 
 }
 
 int main()

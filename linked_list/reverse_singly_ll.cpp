@@ -43,7 +43,6 @@ node* node::reverse_ll_recursive(node* head, node* prev)
     head->next = NULL;    
 
     return newHead;
-
 }
 
 node* node::reverse_ll_iterative(node* head)
